@@ -1,288 +1,189 @@
-Header Information
+---
+# Diffie-Hellman Key Exchange Calculator
 
-Program Name: Diffie-Hellman Key Exchange Calculator
+## Header Information
 
-Author: Haro, Leander Grant L. & Gragasin, Nathaniel
+- **Program Name:** Diffie-Hellman Key Exchange Calculator
+- **Author:** Haro, Leander Grant L. & Gragasin, Nathaniel
+- **Date:**
+  - **Creation Date:** 2024-09-25
+  - **Last Modification Date:** 2024-09-27
+- **Version:** 1.0
+- **Purpose:**  
+  This program implements the Diffie-Hellman key exchange protocol, allowing users to securely exchange cryptographic keys over a public channel. It provides a web-based calculator where users can input parameters to generate private keys, public keys, and compute the shared secret. The application is hosted on a local Flask server and is designed for demonstration purposes.
 
-Date:
-Creation Date: 2024-09-25
-Last Modification Date: 2024-09-27
+## System Requirements
 
-Version: 1.0
+### Hardware
 
-Purpose: This program implements the Diffie-Hellman key exchange protocol, allowing users to securely exchange cryptographic keys over a public channel. It provides a web-based calculator where users can input parameters to generate private keys, public keys, and compute the shared secret. The application is hosted on a local Flask server and is designed for demonstration purposes.
+- **CPU:** Minimum dual-core processor.
+- **RAM:** At least 4 GB.
+- **Storage:** Minimum of 100 MB free disk space.
 
-System Requirements
+### Software
 
-Hardware:
+- **Operating System:**  
+  Windows 10 or higher, macOS Mojave or higher, or a compatible Linux distribution.
+- **Python Version:**  
+  Python 3.7 or higher.
+- **Libraries:**  
+  Flask (install via `pip install Flask`)
 
-CPU: Minimum dual-core processor.
+## Functional Description
 
-RAM: At least 4 GB.
+### Input
 
-Storage: Minimum of 100 MB free disk space.
+- **Prime Number (P):** An integer greater than or equal to 3.
+- **Base (G):** An integer greater than or equal to 2.
+- **Alice's Private Key (a):** An optional integer greater than or equal to 2.
+- **Bob's Private Key (b):** An optional integer greater than or equal to 2.  
+  *If the private keys are not provided, they are generated randomly.*
 
-Software:
+### Processing
 
-Operating System: Windows 10 or higher, macOS Mojave or higher, or a compatible Linux distribution.
+#### Form Submission
 
-Python Version: Python 3.7 or higher.
+Users input or accept default values for **P**, **G**, **a**, and **b** via an HTML form.
 
-Libraries:
-Flask (install via pip install Flask)
+#### Input Validation
 
-Functional Description
+- The application checks that **P ≥ 3** and **G ≥ 2**.
+- Optional private keys are validated to be integers **≥ 2**.
 
-Input:
+#### Key Generation
 
-Prime Number (P): An integer greater than or equal to 3.
+- **Private Keys:**  
+  If not provided, **a** and **b** are generated randomly within the range `[2, P−2]`.
+  
+- **Public Keys:**  
+  - **A = Gᵃ mod P** *(Alice's public key)*
+  - **B = Gᵇ mod P** *(Bob's public key)*
 
-Base (G): An integer greater than or equal to 2.
+#### Shared Secret Calculation
 
-Alice's Private Key (a): An optional integer greater than or equal to 2.
+- **S_A = Bᵃ mod P** *(Alice's computation)*
+- **S_B = Aᵇ mod P** *(Bob's computation)*
 
-Bob's Private Key (b): An optional integer greater than or equal to 2.
-If the private keys are not provided, they are generated randomly.
+*Both **S_A** and **S_B** should be equal, forming the shared secret **S**.*
 
-Processing:
+#### Result Rendering
 
-Form Submission:
+The application displays **a**, **A**, **b**, **B**, and **S** on the web page.
 
-Users input or accept default values for 
-𝑃
-P, 
-𝐺
-G, 
-𝑎
-a, and 
-𝑏
-b via an HTML form.
-Input Validation:
+### Output
 
-The application checks that 
-𝑃
-≥
-3
-P≥3 and 
-𝐺
-≥
-2
-G≥2.
-Optional private keys are validated to be integers 
-≥
-2
-≥2.
-Key Generation:
+- **Displayed Data:**
+  - Alice's Private Key (**a**)
+  - Alice's Public Key (**A**)
+  - Bob's Private Key (**b**)
+  - Bob's Public Key (**B**)
+  - Shared Secret (**S**)
 
-Private Keys:
-If not provided, 
-𝑎
-a and 
-𝑏
-b are generated randomly within the range 
-[
-2
-,
-𝑃
-−
-2
-]
-[2,P−2].
-Public Keys:
-𝐴
-=
-𝐺
-𝑎
-m
-o
-d
- 
- 
-𝑃
-A=G 
-a
- modP (Alice's public key)
-𝐵
-=
-𝐺
-𝑏
-m
-o
-d
- 
- 
-𝑃
-B=G 
-b
- modP (Bob's public key)
-Shared Secret Calculation:
+- **Formats:**  
+  The results are displayed in a styled HTML format for readability.
 
-𝑆
-𝐴
-=
-𝐵
-𝑎
-m
-o
-d
- 
- 
-𝑃
-S 
-A
-​
- =B 
-a
- modP (Alice's computation)
-𝑆
-𝐵
-=
-𝐴
-𝑏
-m
-o
-d
- 
- 
-𝑃
-S 
-B
-​
- =A 
-b
- modP (Bob's computation)
-Both 
-𝑆
-𝐴
-S 
-A
-​
-  and 
-𝑆
-𝐵
-S 
-B
-​
-  should be equal, forming the shared secret 
-𝑆
-S.
-Result Rendering:
+## Security Considerations
 
-The application displays 
-𝑎
-a, 
-𝐴
-A, 
-𝑏
-b, 
-𝐵
-B, and 
-𝑆
-S on the web page.
-Output:
-Displayed Data:
+### Vulnerability Assessment
 
-Alice's Private Key (a)
-Alice's Public Key (A)
-Bob's Private Key (b)
-Bob's Public Key (B)
-Shared Secret (S)
-Formats:
+- **Key Interception:**  
+  Public keys can be intercepted during transmission, potentially enabling man-in-the-middle attacks.
+  
+- **Weak Keys:**  
+  Using small primes and bases can make the key exchange susceptible to attacks.
+  
+- **Predictable Private Keys:**  
+  If private keys are not securely generated, they can be predicted by attackers.
 
-The results are displayed in a styled HTML format for readability.
-Security Considerations
+### Mitigation Strategies
 
-Vulnerability Assessment:
+- **Use Secure Channels:**  
+  In real-world applications, ensure that public keys are transmitted over secure channels (e.g., HTTPS).
+  
+- **Large Primes and Bases:**  
+  Utilize large prime numbers and appropriate primitive roots to enhance security.
+  
+- **Secure Random Number Generation:**  
+  Use cryptographically secure random number generators for private key generation (e.g., `secrets` module in Python).
 
- Key Interception: Public keys can be intercepted during transmission, potentially enabling man-in-the-middle attacks.
- 
- Weak Keys: Using small primes and bases can make the key exchange susceptible to attacks.
+## Testing
 
- Predictable Private Keys: If private keys are not securely generated, they can be predicted by attackers.
+- **Unit Testing:**  
+  Verify that for various inputs, the shared secret is correctly computed and consistent between Alice and Bob.
+  
+- **Edge Case Testing:**  
+  Test with minimal and maximal acceptable values for inputs.
+  
+- **Security Testing:**  
+  Simulate interception of public keys to ensure that shared secrets remain secure.
 
-Mitigation Strategies:
- 
- Use Secure Channels: In real-world applications, ensure that public keys are transmitted over secure channels (e.g., HTTPS).
- 
- Large Primes and Bases: Utilize large prime numbers and appropriate primitive roots to enhance security.
- 
- Secure Random Number Generation: Use cryptographically secure random number generators for private key generation (e.g., secrets module in Python).
+## Usage Instructions
 
-Testing:
- 
- Unit Testing: Verify that for various inputs, the shared secret is correctly computed and consistent between Alice and Bob.
- 
- Edge Case Testing: Test with minimal and maximal acceptable values for inputs.
- 
- Security Testing: Simulate interception of public keys to ensure that shared secrets remain secure.
-Usage Instructions
- 
- Installation:
-Clone the Repository or Set Up the Project Directory: Ensure that the project directory is structured correctly with all necessary files.
+### Installation
 
-Navigate to the Project Directory:
+1. **Clone the Repository or Set Up the Project Directory:**  
+   Ensure that the project directory is structured correctly with all necessary files.
 
-cd C:\Users\harol\PycharmProjects\pythonProject1
+2. **Navigate to the Project Directory:**
 
-Set Up a Virtual Environment (optional but recommended):
+   ```bash
+   cd C:\Users\harol\PycharmProjects\pythonProject1
 
-python -m venv .venv
+3. **Set Up a Virtual Environment (optional but recommended):**
 
-Activate the Virtual Environment:
+   ```bash
+   python -m venv .venv
 
-Windows: .\.venv\Scripts\activate
+4. **Activate the Virtual Environment:**
 
-Install Dependencies: pip install -r requirements.txt
+   ```bash
+   .\.venv\Scripts\activate
 
-Configuration:
+5. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
 
-Prime Number (P) and Base (G): Users can input their own values via the web form. Defaults are set to 
-𝑃
-=
-23
-P=23 and 
-𝐺
-=
-5
-G=5.
+### Configuration
 
-Execution:
-Run the Flask Application:
+- **Prime Number (P) and Base (G):**
+  Users can input their own values via the web form.
+Defaults:
+- P = 23
+- G = 5
 
-python flask_app.py
+### Execution
 
-Access the Application: Open a web browser and navigate to:
+1. **Run the Flask Application:**
+   ```bash
+   python flask_app.py
 
-http://127.0.0.1:5000/
+2. **Access the Application:**
+Open a web browser and navigate to:
+   ```bash
+   http://127.0.0.1:5000/
 
-Perform Calculations:
+3. **Perform Calculations:**
+   - Fill in the form with desired values or use the defaults.
+   - Click "Calculate Shared Secret" to view the results.
 
-Fill in the form with desired values or use the defaults.
-Click "Calculate Shared Secret" to view the results.
+### Error Handling
+#### Error Codes
+- ValueError:
+  Raised when inputs do not meet validation criteria (e.g., P < 3, G < 2).
 
-Error Handling
+**Recovery Procedures**
+- Invalid Input Handling:
+  Users are informed of input errors via error messages displayed on the webpage.
 
-Error Codes:
+- Exception Logging:
+  All exceptions are caught and displayed as error messages to the user.
 
-ValueError: Raised when inputs do not meet validation criteria (e.g., 
-𝑃
-<
-3
-P<3, 
-𝐺
-<
-2
-G<2).
-Recovery Procedures:
+## Maintenance Log
+|Date       |Changes Description	                                            |Author          |
+|-----------|----------------------------------------------------------------|----------------|
+|2024-09-25 |Initial creation of the Diffie-Hellman Key Exchange Calculator.	|Haro & Gragasin |
+|2024-09-27	|Added input validation and enhanced error handling.            	|Haro & Gragasin |
 
-Invalid Input Handling: Users are informed of input errors via error messages displayed on the webpage.
 
-Exception Logging: All exceptions are caught and displayed as error messages to the user.
 
-Maintenance Log
 
-Date	Changes Description	Author
-
-2024-09-25	Initial creation of the Diffie-Hellman Key Exchange Calculator.	Haro & Gragasin
-
-2024-09-27	Added input validation and enhanced error handling.	Haro & Gragasin
